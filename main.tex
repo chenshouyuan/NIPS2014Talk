@@ -344,16 +344,6 @@
     \end{itemize}
   \end{column}
   \end{columns}
-
-  \pause
-
-  %\textcolor{DarkRed}{known results} algorithms with matching lower bounds \textcolor{DarkBlue}{[JMNB14]}
-  \vspace{1em}
-  \textcolor{DarkRed}{extensions}
-  \begin{itemize}
-    \item find top-$k$ arms \textcolor{DarkBlue}{[KS10,GGL12,KTPS12,BWV13,KK13,ZCL14]}
-    \item find top arms in disjoint groups   of arms \textcolor{DarkBlue}{[GGLB11,GGL12,BWV13]}
-  \end{itemize}
 \end{frame}
 
 \begin{frame}{Pure exploration: two settings}
@@ -461,22 +451,37 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Our Results}
+\begin{frame}{Existing Work}
   \begin{itemize}
-    \item<1-> \textcolor{DarkRed}{algorithms}
+  %\textcolor{DarkRed}{known results} algorithms with matching lower bounds \textcolor{DarkBlue}{[JMNB14]}
+    \item find top-$k$ arms \textcolor{DarkBlue}{[KS10,GGL12,KTPS12,BWV13,KK13,ZCL14]}
+    \item find top arms in disjoint groups   of arms \textcolor{DarkBlue}{[GGLB11,GGL12,BWV13]}
+    \item separate treatments, no unified framework
+  \end{itemize}  
+\end{frame}
+
+
+\begin{frame}{Our Results}
+
+  \begin{itemize}
+    \item<2-> \textcolor{DarkRed}{general framework}
       \begin{itemize}
-        \item two general learning algorithms for a wide range of $\M$.
+        \item for a wide range of combinatorial constraints $\M$.
       \end{itemize}
-    \item<2-> \textcolor{DarkRed}{upper bounds}
+    \item<3-> \textcolor{DarkRed}{algorithms}
+      \begin{itemize}
+        \item two generic learning algorithms.
+      \end{itemize}
+    \item<4-> \textcolor{DarkRed}{upper bounds}
       \begin{itemize}
         \item sample complexity / probability of error.
         %\item \textbf{exchange class}: a new tool for analysis.
       \end{itemize}
-    \item<3-> \textcolor{DarkRed}{lower bound}
+    \item<5-> \textcolor{DarkRed}{lower bound}
       \begin{itemize}
         \item algorithms are \alert{optimal} (within log factors) for many types of $\M$ (in particular, bases of a matroid).
       \end{itemize}
-    \item<4-> \textcolor{DarkRed}{compared with existing work}
+    \item<6-> \textcolor{DarkRed}{compared with existing work}
       \begin{itemize}
         \item the first lower bound for the top-$k$ problem
         \item the first upper and lower bounds for other combinatorial constraints.
