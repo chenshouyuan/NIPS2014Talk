@@ -54,8 +54,8 @@
     Mapping=tex-text,
     Scale=MatchLowercase,
 }
-\setsansfont{Optima}
-\setmonofont{Monaco}
+%\setsansfont{Optima}
+%\setmonofont{Monaco}
 
 %\def\heading{%
 %  \large%
@@ -193,7 +193,7 @@
 
   \bigskip
 
-  {$^1$ CUHK \,\, $^2$ Tsinghua University \,\, $^3$ Microsoft Research Asia}
+  {$^1$ CUHK \,\, $^2$ Tsinghua University \,\, $^3$ \textcolor{DarkBlue}{Microsoft Research Asia}}
     
  \end{center}
 \end{frame}
@@ -401,9 +401,12 @@
       \item play one arm at each round
       \item find the optimal \textbf{set} of arms $M_*$ satisfying certain constraint
       \vspace{-1em}
-              $$M_* = \argmax_{\textcolor{DarkRed}{M\in \M}} \sum_{i\in M} w(i)$$
+              $$M_* = \argmax_{\textcolor{DarkRed}{M\in \M}} \sum_{e \in M} w(e)$$
       \vspace{-1em}
       \begin{itemize}         
+        \item $[n]$: set of arms
+        \item $\M \subseteq 2^{[n]}$: \textcolor{DarkBlue}{decision class} with a combinatorial
+        	constraint
         \item maximize the  \textcolor{DarkBlue}{sum of expected rewards} of arms in the set  
         %\item $\M \subseteq 2^{[n]}$ is the collection of valid sets.              
       \end{itemize}
@@ -734,9 +737,10 @@ Our sample complexity bound depends on two quantities.
     \begin{itemize}
       \item we need a unifying method of analyzing different $\M$
       \begin{itemize}
-        \item an exchange class is a ``proxy'' for the structure of $\M$.
+        \item an \textcolor{DarkBlue}{exchange class} is a ``proxy'' for the structure of $\M$.
       \end{itemize}
-      \item an exchange class is a collection of ``patches'' that are used to interpolate between valid sets.
+      \item an exchange class $\B$ is a collection of ``patches'' ($(b_+,b_-), b_+,b_-\subseteq [n]$) that are used to interpolate between valid sets
+      ($M\setminus b_- \cup b_+ = M', M,M' \in \M$).
 %      \item width is the largest size of patches.
     \end{itemize}
   \end{exampleblock}
@@ -774,27 +778,12 @@ Our sample complexity bound depends on two quantities.
 \begin{columns}[T]
 \begin{column}[t]{0.7\textwidth}
   \begin{exampleblock}{definition}
-
     %Let $\mathcal B$ be an exchange class. 
   \textcolor{DarkRed}{$\rank(\B)$: } the size of the largest ``patch''
-
   \begin{equation*}
     \label{eq:width}
     \rank(\B) = \max_{(b_+,b_-) \in \B} |b_+|+|b_-|.
   \end{equation*}
-  
- % Let $\Exchange(\M)$ denote the family of all possible exchange classes for $\M$.
- % We define the width of $\M$ to be the width of the thinnest exchange class
-  \textcolor{DarkRed}{$\rank(\M)$: }  the width of the ``thinnest'' exchange class
-
-
-  \begin{equation*}
-  \label{eq:width-class}
-  \rank(\M) = \min_{\B \in \Exchange(\M)} \rank(\B),
-  \end{equation*}
-  %\begin{itemize}
-  %\item $\Exchange(\M)$: possible exchange classes for $\M$.
-  %\end{itemize}
   \end{exampleblock}
 \end{column}
 \begin{column}[t]{0.3\textwidth}
@@ -804,6 +793,20 @@ Our sample complexity bound depends on two quantities.
 \end{figure}
 \end{column}
 \end{columns}
+ % Let $\Exchange(\M)$ denote the family of all possible exchange classes for $\M$.
+ % We define the width of $\M$ to be the width of the thinnest exchange class
+\hspace{-5mm}
+  \textcolor{DarkRed}{$\rank(\M)$: }  the width of the ``thinnest'' exchange class
+\hspace{-15mm}
+  \begin{equation*}
+  \label{eq:width-class}
+  \rank(\M) = \min_{\B \in \Exchange(\M)} \rank(\B),
+  \end{equation*}
+  %\begin{itemize}
+  %\item $\Exchange(\M)$: possible exchange classes for $\M$.
+  %\end{itemize}
+\textcolor{DarkBlue}{The main technical contribution: Define exchange class and its algebra and
+	conduct generic analysis using exchange classes.}
 \begin{example}[Widths]
     \begin{itemize}
     \item \textbf{$k$-sets, spanning trees, bases of a matroid}: $\rank(\M) = 2$.
@@ -924,9 +927,10 @@ An algorithm $\mathbb A$ is a \textcolor{DarkBlue}{$\delta$-correct algorithm}, 
     \begin{itemize}
         \item $\M_t = \{M: M\in \M, \textcolor{DarkGreen}{A_t} \subseteq M, \textcolor{DarkRed}{B_t} \cap M = \emptyset\}$.
         \item $ \textcolor{DarkGreen}{A_t} $: accepted arms, $ \textcolor{DarkRed}{B_t}$: rejected arms (up to phase $t$).
-        \item<2-> $\bar \Delta_e$ can be computed using a maximization oracle.
+        \item-> $\bar \Delta_e$ can be computed using a maximization oracle.
+%        \item<2-> $\bar \Delta_e$ can be computed using a maximization oracle.        
     \end{itemize}
-    \item<3-> recall the (unknown) \textbf{gap} of arm $e$:
+    \item-> recall the (unknown) \textbf{gap} of arm $e$:
       $$        
           \Delta_e = \begin{cases}
              w(M_*)-\max_{M\in \M: e\in M} w(M) & \text{if } e\not \in M_*, \\
@@ -949,28 +953,33 @@ To guarantee  a constant  probability of error of $\delta$, both CSAR and CLUCB 
 
 \begin{frame}{Summary}
 \begin{itemize}
-  \item combinatorial pure exploration: a general framework that covers many pure exploration problems in MAB.
+  \item \textcolor{DarkBlue}{Combinatorial pure exploration}: a general framework that covers many pure exploration problems in MAB.
     \begin{itemize}
       \item find top-$k$ arms, optimal spanning trees, matchings or paths.
     \end{itemize}
-  \item two general algorithms for the problem
+  \item Two general algorithms (CLUCB, CSAR) for the problem
     \begin{itemize}
       \item only need a maximization oracle for $\M$.
       \item comparable performance guarantees.
     \end{itemize}
-  \item our algorithm is optimal (up to log factors) for matroids.
+  \item Our algorithm is optimal (up to log factors) for matroids.
     \begin{itemize}
       \item including $k$-sets and spanning trees.
       %\item a  gap for other types of $\M$.
     \end{itemize}
+  \item Trilogy on stochastic and combinatorial online learning : together with our recent work on 
+  \textcolor{DarkBlue}{combinatorial multi-armed bandit} [CWY,ICML'13] and
+  \textcolor{DarkBlue}{combinatorial partial monitoring} [LAKLC, ICML'14], 
+  all dealing with general combinatorial
+  constraints
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Future work}
 \begin{itemize}
-  \item tighten the bounds for matching, paths and other combinatorial constraints
-  \item support approximate maximization oracles
-  \item non-linear rewards
+  \item Tighten the bounds for matching, paths and other combinatorial constraints
+  \item Support approximation oracles
+  \item Support non-linear reward functions
 \end{itemize}
 \end{frame}
 
